@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filterable list</title>
+    <style>
+        .page-wrapper {
+            width: 90%;
+            margin: auto;
+        }
+
+        .filterBtnContainer {
+            margin-bottom: 12px;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            height: 24px;
+            width: 48px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <h1>A filterable list of people</h1>
+        <div class="filterBtnContainer">
+            <button id="filterBtnAll">All</button>
+            <button id="filterBtnMale">Male</button>
+            <button id="filterBtnFemale">Female</button>
+        </div>
+        <table id="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Age</th>
+                    <th>Height</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table data through JS -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Array
+        const people = [
+            {
+                name:'Kate',
+                gender:'female',
+                age:'23',
+                height:'153',
+            },
+            {
+                name:'Rob',
+                gender:'male',
+                age:'34',
+                height:'179',
+            },
+            {
+                name:'Joseph',
+                gender:'male',
+                age:'42',
+                height:'191',
+            },
+            {
+                name:'Peter',
+                gender:'male',
+                age:'108',
+                height:'182',
+            },
+            {   
+                name:'Emily',
+                gender:'female',
+                age:'26',
+                height:'165',
+            },
+            {   
+                name:'Penelope',
+                gender:'female',
+                age:'56',
+                height:'158',
+            },
+        ];
+        
+        console.log(people);
+        
+        // declaration of required variables
+        const tableBody = document.querySelector('tbody');
+        const filterBtnAll = document.getElementById('filterBtnAll');
+        const filterBtnMale = document.getElementById('filterBtnMale');
+        const filterBtnFemale = document.getElementById('filterBtnFemale');
+
+        // function to populate table
+        function populateTable(data) {
+            tableBody.innerHTML = '';
+        
+            data.forEach(person => {
+                const row = document.createElement('tr');
+
+                Object.entries(person).forEach(([key, value]) => {
+                    const cell = document.createElement('td');
+                    cell.textContent = key === 'height' ? value + 'cm' : value;
+                    row.appendChild(cell);
+                });
+
+                tableBody.appendChild(row);
+            });
+        }
+
+        // event listeners for filter buttons
+        filterBtnAll.addEventListener('click', () => {
+            populateTable(people)
+        });
+
+        filterBtnMale.addEventListener('click', () => {
+            const malePeople = people.filter(person => person.gender === 'male');
+            populateTable(malePeople);
+        });
+
+        filterBtnFemale.addEventListener('click', () => {
+            const femalePeople = people.filter(person => person.gender === 'female');
+            populateTable(femalePeople);
+        });
+
+        // initial table population is full unfiltered array
+        populateTable(people);
+    </script>
+</body>
+</html>
